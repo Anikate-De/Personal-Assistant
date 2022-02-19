@@ -1,0 +1,13 @@
+python -m ensurepip
+python -m pip install --upgrade pip
+pip install pyttsx3
+pip install pipwin
+pip install SpeechRecognition
+pipwin install pyaudio
+pip install wikipedia
+pip install wolframalpha
+pip install mysql-connector-python
+pip install pillow
+pip install image
+pip install pygame
+pip install pyscreenshot
