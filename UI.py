@@ -24,12 +24,15 @@ from PIL import Image, ImageTk
  
  All the important actions are performed within this class.
 '''
+
+
 class PersonalAssistant:
-    
+
     '''
       This function uses the system time to select an appropriate greeting message
       for the user on the startup of this application.
     '''
+
     def wishMe(self):
 
         hour = datetime.datetime.now().hour
@@ -48,13 +51,13 @@ class PersonalAssistant:
 
             self.showInCommandText("Hello, Good Evening.")
             self.speak("Hello, Good Evening.")
-            
-            
+
     '''
       This function takes the input passed by the user in the text mode.
       It makes the necessary changes in the state of the widgets and the
       application and then starts a new thread to interpret the input.
     '''
+
     def takeTextCommand(self):
 
         command = self.commandEntry.get()
@@ -73,7 +76,7 @@ class PersonalAssistant:
 
             except:
                 pass
-            
+
             # starts a dedicated thread for the function statementReceived
 
             self.textThread = threading.Thread(
@@ -81,19 +84,19 @@ class PersonalAssistant:
             )
 
             self.textThread.start()
-            
-    
+
     '''
       This function takes the input passed my the user in the audio mode.
       It uses the microphone as the source and then lets the voice recognizer
       listen to it in the background.
     '''
+
     def takeMicCommand(self):
 
         self.mixer.music.stop()
 
         self.mixer.music.unload()
-        
+
         # makes necessary changes to the UI
 
         self.micButton["state"] = tk.DISABLED
@@ -109,7 +112,7 @@ class PersonalAssistant:
         with self.microphone as source:
 
             if self.setupAudioInput:
-                
+
                 # listens to the user's environment for <duration> seconds and adjusts
                 # to the noise levels
                 self.recognizer.adjust_for_ambient_noise(source, duration=0.4)
@@ -121,12 +124,12 @@ class PersonalAssistant:
             print("Listening...")
 
         self.stop = self.recognizer.listen_in_background(source, self.callback)
-        
-    
+
     '''
       This function is the callback for when the audio has been recognized
       by the recognizer.
     '''
+
     def callback(self, recognizer, audio):
 
         try:
@@ -153,12 +156,12 @@ class PersonalAssistant:
         self.commandEntry["state"] = tk.NORMAL
 
         self.statementReceived(statement)
-        
-    
+
     '''
       This function uses the deciphered input from the user obtained by either
       the text or the audio mode and then proceeds with the appropriate options.
     '''
+
     def statementReceived(self, statement):
 
         statement = statement.replace("Try saying : ", "")
@@ -257,14 +260,14 @@ class PersonalAssistant:
                                values=("Working on it...",))
 
             self.answer(statement)
-            
-    
+
     '''
       Displays the text/voice input by the user in a specific UI widget
       of the application for simplicity.
     '''
+
     def showInCommandText(self, statement):
-        
+
         # formats text appropriate before displaying
 
         if statement == "none":
@@ -283,16 +286,15 @@ class PersonalAssistant:
                 + statement[-27:-1]
                 + statement[-1],
             )
-            
-    
+
     '''
       This function user the processed output of the application and then
       provides it back to the user in the audio mode, using the text to speech
       module of python.
     '''
+
     def speak(self, sentence, fillInTV=True):
-        
-        
+
         # waits for the ongoing speech to finish
         while self.mixer.music.get_busy():
             time.sleep(0.1)
@@ -320,7 +322,7 @@ class PersonalAssistant:
         self.mixer.music.unload()
 
         outfile = "temp.wav"
-        
+
         # removes a temporary audio file if it already exists, proceeds further otherwise
 
         try:
@@ -334,28 +336,27 @@ class PersonalAssistant:
         self.engine.save_to_file(sentence, outfile)
 
         self.engine.runAndWait()
-        
+
         # loads the speech from the file and plays it using pygame mixers
 
         pygame.mixer.music.load(outfile)
 
         pygame.mixer.music.play()
-        
-    
+
     '''
       This function is called whenever a question is asked which is not
       present in the application's domain. It uses the Wolfram Alpha API
       to provide the user with a meaningful reply.
     '''
-    def answer(self, question):
 
+    def answer(self, question):
 
         client = wolframalpha.Client("JWJJTA-28PAL9AULQ")
 
         res = client.query(question)
 
         try:
-            
+
             # extracts answer from the result
 
             answer = next(res.results).text
@@ -365,16 +366,16 @@ class PersonalAssistant:
             self.speak(answer)
 
         except:
-            
+
             # if no appropriate answer is found
             self.changeRobotIcon("buzzed-border6.png")
 
             self.speak("Sorry, I didn't understand")
-            
-            
+
     '''
       This function uses the wikipedia library to look for the given input.
     '''
+
     def wiki(self, statement):
 
         self.changeRobotIcon("thinking-border6.png")
@@ -395,19 +396,19 @@ class PersonalAssistant:
             self.speak(results)
 
         except wikipedia.exceptions.WikipediaException:
-            
+
             # if wikipedia has no data about the query
 
             self.changeRobotIcon("upset-border6.png")
 
             self.speak(
                 "Sorry, but Wikipedia has no information about that topic yet.")
-            
-            
+
     '''
       This function opens up the given website/webpage's address using the
       user's default internet browser.
     '''
+
     def open(self, statement):
 
         statement = statement[statement.index("open") + 4::]
@@ -429,11 +430,11 @@ class PersonalAssistant:
 
         webbrowser.open_new_tab(statement)
 
-        
     '''
       This function opens up the google search output webpage for the given
       query using the user's default internet browser.
     '''
+
     def search(self, statement):
 
         statement = statement.replace("search", "")
@@ -445,26 +446,26 @@ class PersonalAssistant:
 
         webbrowser.open_new_tab("https://www.google.com/search?q=" + statement)
 
-        
     '''
       This function uses the python screenshotting library to take a screenshot
       of the user's computer screen and save it locally in the application directory.
     '''
+
     def takeScreenshot(self):
         # minimises window
         self.topInstance.iconify()
-        
+
         image = pyscreenshot.grab()
         image.save("CAPTURE.png")
-        
+
         # restores window to original size
         self.topInstance.deiconify()
-        
-        
+
     '''
       Obtains the records from the to do list table of the user's local database,
       and displays it in the tkinter treeview.
     '''
+
     def show_to_do(self):
 
         # fetches records and stores them in a tuple
@@ -472,7 +473,7 @@ class PersonalAssistant:
             "SELECT * FROM TO_DO_LIST ORDER BY EVENT_DATETIME ASC")
 
         results = self.cursor.fetchall()
-        
+
         # informs the user about the number of records in the list
 
         if len(results) > 0:
@@ -501,7 +502,7 @@ class PersonalAssistant:
                     "Completed/Past Due" if row[3] else "Due",
                 )
             ]
-            
+
         # makes necessary changes to the output UI
 
         self.output.delete(*self.output.get_children())
@@ -528,12 +529,12 @@ class PersonalAssistant:
 
             self.output.insert(parent="", index=0, values=(i))
 
-            
     '''
       Implements the delete record functionality for a table via python interfacing.
       Deletes the records selected by the user from the treeview containing the
       "Show to do" output.
     '''
+
     def delete_to_do(self):
 
         # if the user hasn't selected any record then the following actios are performed
@@ -560,7 +561,7 @@ class PersonalAssistant:
         for selection in self.output.selection():
 
             eno += (self.output.item(selection)["values"][0],) + (0,)
-            
+
         # executes SQL Query
 
         self.cursor.execute(
@@ -575,12 +576,13 @@ class PersonalAssistant:
         )
 
         self.show_to_do()
-        
+
     '''
       Implements the update record functionality on a table via python interfacing.
       Opens a new pop up window to change the properties of the existing record that
       was selected by the user from the output of "show to do"
     '''
+
     def update_to_do(self):
 
         # checks if the user has selected a record or not
@@ -600,7 +602,7 @@ class PersonalAssistant:
 
             self.show_to_do()
             return
-        
+
         # in case the user selects more than one record, these actions are performed
         elif len(self.output.selection()) > 1:
 
@@ -620,9 +622,9 @@ class PersonalAssistant:
 
             self.show_to_do()
             return
-        
+
         # obtains the old values in the record
-        
+
         self.oldUpdateValues = self.output.item(
             self.output.selection())["values"]
         self.oldUpdateValues[1] = datetime.datetime.strptime(
@@ -699,13 +701,13 @@ class PersonalAssistant:
         )
         self.updateButton.grid(row=5, column=1, sticky=tk.E, padx=10, pady=40)
 
-        
     '''
       This function executes the SQL query and performs the necessary actions to
       inform the user about the updation/failure.
     '''
+
     def update(self):
-        
+
         # executes SQL Query
         try:
             self.cursor.execute(
@@ -724,7 +726,7 @@ class PersonalAssistant:
             self.win.grab_release()
             self.win.destroy()
             return
-        
+
         # If the updation is successful then the following steps are performed.
 
         self.win.grab_release()
@@ -741,13 +743,13 @@ class PersonalAssistant:
 
         self.initiateShowTODOThread()
 
-        
     '''
       Implements the insert record functionality on a table via python interfacing.
       Opens a new pop up window to add the properties of the new record.
     '''
+
     def add_to_do(self):
-        
+
         # creates UI
 
         self.winAdd = tk.Toplevel(self.topInstance)
@@ -812,14 +814,14 @@ class PersonalAssistant:
             self.winAdd, text="SUBMIT", style="my.TButton", command=self.insert
         )
         self.insertButton.grid(row=4, column=1, sticky=tk.E, padx=10, pady=40)
-        
-    
+
     '''
       This function executes the SQL query and performs the necessary actions to
       inform the user about the insertion/failure.
     '''
+
     def insert(self):
-        
+
         # executes SQL Query
 
         try:
@@ -827,9 +829,9 @@ class PersonalAssistant:
                 f'INSERT INTO TO_DO_LIST(EVENT_NAME, EVENT_DATETIME, EVENT_COMPLETED) VALUES(\'{self.eventNameAdd.get()}\', \'{self.eventDatetimeAdd.get()}\', {0 if self.completionStateAdd.get() == "Due" else 1});'
             )
         except Exception as e:
-            
+
             # If the app runs into an error, following steps are performed
-            
+
             print(e)
             self.changeRobotIcon("upset-border6.png")
 
@@ -861,35 +863,35 @@ class PersonalAssistant:
         )
 
         self.initiateShowTODOThread()
-        
-    
+
     '''
       Changes the Robot face icon in the Applicatoin UI by using a local image.
     '''
+
     def changeRobotIcon(self, location="greeting-border6.png"):
         self.img = Image.open(location)
         self.img = self.img.resize((200, 220), Image.ANTIALIAS)
         self.img = ImageTk.PhotoImage(self.img)
         self.topInstance.img = self.img
-        
+
         # adds images object to the UI
         self.img = self.canvas.create_image(
             325, 130, anchor=tk.CENTER, image=self.img)
 
-        
     '''
       Creates a thread for the "Show to do" function and starts it.
     '''
+
     def initiateShowTODOThread(self):
         self.TODOThread = threading.Thread(target=self.show_to_do)
         self.TODOThread.start()
-        
-    
+
     '''
       This function is called whenever an object of the class is initialized.
       It creates a connection to the database, initializes important variables,
       creates the UI and greets the user.
     '''
+
     def __init__(self, top=None):
 
         # makes necessary connections to the database
@@ -972,8 +974,7 @@ class PersonalAssistant:
         top.title("Personal Assistant")
 
         root.wm_attributes("-transparentcolor", "grey")
-        
-        
+
         # creates the UI
 
         self.canvas = tk.Canvas(
@@ -1091,11 +1092,10 @@ class PersonalAssistant:
 
         self.outputScrollbar.pack(side="right", fill="y")
 
-        
         # greets the user
         self.wishMe()
 
-        
+
 '''
   Main function of this python program, it creates an object of the
   PersonalAssistant class and then proceeds to initiate the top level
