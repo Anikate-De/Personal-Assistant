@@ -119,7 +119,7 @@ class PersonalAssistant:
 
                 self.setupAudioInput = False
 
-            self.changeRobotIcon("content-border6.png")
+            self.changeRobotIcon("assets/content-border6.png")
 
             print("Listening...")
 
@@ -143,7 +143,7 @@ class PersonalAssistant:
             # if audio decryption fails, following actions are performed
             statement = "none"
 
-            self.changeRobotIcon("expressionless-border6.png")
+            self.changeRobotIcon("assets/expressionless-border6.png")
 
             self.speak("Pardon me, please say that again\n")
 
@@ -192,7 +192,7 @@ class PersonalAssistant:
 
         elif any(s in statement for s in ["weather", "temperature"]):
 
-            self.changeRobotIcon("happy-border6.png")
+            self.changeRobotIcon("assets/happy-border6.png")
 
             self.speak("Displaying the Weather Report...")
 
@@ -200,7 +200,7 @@ class PersonalAssistant:
 
         elif "news" in statement:
 
-            self.changeRobotIcon("happy-border6.png")
+            self.changeRobotIcon("assets/happy-border6.png")
 
             self.speak("Displaying the latest News Headlines...")
 
@@ -212,7 +212,7 @@ class PersonalAssistant:
 
         elif "screenshot" in statement:
 
-            self.changeRobotIcon("screenshot-border6.png")
+            self.changeRobotIcon("assets/screenshot-border6.png")
 
             self.speak("Capturing a screenshot...")
 
@@ -220,7 +220,7 @@ class PersonalAssistant:
 
         elif "your name" in statement:
 
-            self.changeRobotIcon("greeting-border6.png")
+            self.changeRobotIcon("assets/greeting-border6.png")
 
             self.speak(
                 "My name is Micro! I'm your personal assistant. I will be happy to help you with your daily tasks."
@@ -246,7 +246,7 @@ class PersonalAssistant:
 
         elif any(s in statement for s in ["event", "task", "to do"]):
 
-            self.changeRobotIcon("happy-border6.png")
+            self.changeRobotIcon("assets/happy-border6.png")
             self.commandEntry.insert(0, 'Try saying : "Add event"')
             self.show_to_do()
 
@@ -254,7 +254,7 @@ class PersonalAssistant:
 
             self.output.delete(*self.output.get_children())
 
-            self.changeRobotIcon("thinking-border6.png")
+            self.changeRobotIcon("assets/thinking-border6.png")
 
             self.output.insert(parent="", index=0,
                                values=("Working on it...",))
@@ -321,7 +321,7 @@ class PersonalAssistant:
 
         self.mixer.music.unload()
 
-        outfile = "temp.wav"
+        outfile = "temp/temp.wav"
 
         # removes a temporary audio file if it already exists, proceeds further otherwise
 
@@ -361,14 +361,14 @@ class PersonalAssistant:
 
             answer = next(res.results).text
 
-            self.changeRobotIcon("happy-border6.png")
+            self.changeRobotIcon("assets/happy-border6.png")
 
             self.speak(answer)
 
         except:
 
             # if no appropriate answer is found
-            self.changeRobotIcon("buzzed-border6.png")
+            self.changeRobotIcon("assets/buzzed-border6.png")
 
             self.speak("Sorry, I didn't understand")
 
@@ -378,7 +378,7 @@ class PersonalAssistant:
 
     def wiki(self, statement):
 
-        self.changeRobotIcon("thinking-border6.png")
+        self.changeRobotIcon("assets/thinking-border6.png")
 
         self.speak("Searching Wikipedia...")
 
@@ -389,7 +389,7 @@ class PersonalAssistant:
             # uses the wikipedia module to get data
             results = wikipedia.summary(statement, sentences=3)
 
-            self.changeRobotIcon("happy-border6.png")
+            self.changeRobotIcon("assets/happy-border6.png")
 
             self.speak("According to Wikipedia,")
 
@@ -399,7 +399,7 @@ class PersonalAssistant:
 
             # if wikipedia has no data about the query
 
-            self.changeRobotIcon("upset-border6.png")
+            self.changeRobotIcon("assets/upset-border6.png")
 
             self.speak(
                 "Sorry, but Wikipedia has no information about that topic yet.")
@@ -418,7 +418,7 @@ class PersonalAssistant:
 
             statement = statement.replace(" ", "")
 
-        self.changeRobotIcon("happy-border6.png")
+        self.changeRobotIcon("assets/happy-border6.png")
 
         self.speak("Opening " + statement)
 
@@ -440,7 +440,7 @@ class PersonalAssistant:
         statement = statement.replace("search", "")
         statement = statement.strip()
 
-        self.changeRobotIcon("happy-border6.png")
+        self.changeRobotIcon("assets/happy-border6.png")
 
         self.speak("Searching on Google.com...")
 
@@ -456,7 +456,7 @@ class PersonalAssistant:
         self.topInstance.iconify()
 
         image = pyscreenshot.grab()
-        image.save("CAPTURE.png")
+        image.save("temp/CAPTURE.png")
 
         # restores window to original size
         self.topInstance.deiconify()
@@ -540,7 +540,7 @@ class PersonalAssistant:
         # if the user hasn't selected any record then the following actios are performed
         if len(self.output.selection()) == 0:
 
-            self.changeRobotIcon("buzzed-border6.png")
+            self.changeRobotIcon("assets/buzzed-border6.png")
 
             self.speak(
                 "No events were selected. Please try again after selecting the events from the table below",
@@ -568,7 +568,7 @@ class PersonalAssistant:
             f"DELETE FROM TO_DO_LIST WHERE EVENT_NUMBER IN {eno}")
         self.connection.commit()
 
-        self.changeRobotIcon("happy-border6.png")
+        self.changeRobotIcon("assets/happy-border6.png")
 
         # intimates user
         self.speak(
@@ -588,7 +588,7 @@ class PersonalAssistant:
         # checks if the user has selected a record or not
         if len(self.output.selection()) == 0:
 
-            self.changeRobotIcon("buzzed-border6.png")
+            self.changeRobotIcon("assets/buzzed-border6.png")
 
             self.speak(
                 "No events were selected. Please try again after selecting the events from the table below",
@@ -606,7 +606,7 @@ class PersonalAssistant:
         # in case the user selects more than one record, these actions are performed
         elif len(self.output.selection()) > 1:
 
-            self.changeRobotIcon("expressionless-border6.png")
+            self.changeRobotIcon("assets/expressionless-border6.png")
 
             self.speak(
                 "Only one event can be updated at a time, please try again",
@@ -716,7 +716,7 @@ class PersonalAssistant:
         except:
 
             # If the app fails to update, it performs the following steps.
-            self.changeRobotIcon("upset-border6.png")
+            self.changeRobotIcon("assets/upset-border6.png")
 
             self.speak(
                 "I encountered an error whilst updating, please check your input and try again.",
@@ -734,7 +734,7 @@ class PersonalAssistant:
 
         self.connection.commit()
 
-        self.changeRobotIcon("happy-border6.png")
+        self.changeRobotIcon("assets/happy-border6.png")
 
         self.speak(
             f"Event number {self.oldUpdateValues[0]} was successfully updated.",
@@ -833,7 +833,7 @@ class PersonalAssistant:
             # If the app runs into an error, following steps are performed
 
             print(e)
-            self.changeRobotIcon("upset-border6.png")
+            self.changeRobotIcon("assets/upset-border6.png")
 
             self.winAdd.grab_release()
             self.winAdd.destroy()
@@ -853,7 +853,7 @@ class PersonalAssistant:
 
         self.connection.commit()
 
-        self.changeRobotIcon("happy-border6.png")
+        self.changeRobotIcon("assets/happy-border6.png")
 
         self.commandEntry.insert(0, 'Try saying : "Update event"')
 
@@ -868,7 +868,7 @@ class PersonalAssistant:
       Changes the Robot face icon in the Applicatoin UI by using a local image.
     '''
 
-    def changeRobotIcon(self, location="greeting-border6.png"):
+    def changeRobotIcon(self, location="assets/greeting-border6.png"):
         self.img = Image.open(location)
         self.img = self.img.resize((200, 220), Image.ANTIALIAS)
         self.img = ImageTk.PhotoImage(self.img)
@@ -985,7 +985,7 @@ class PersonalAssistant:
 
         """WHENEVER YOU NEED TO ADD AN IMAGE, DO FOLLOW THE FOLLOWING 5 LINES OF CODE, VERY MUCH NECESSARY"""
 
-        self.bgimg = Image.open("background.png")
+        self.bgimg = Image.open("assets/background.png")
 
         """RESIZE THE IMAGE AS NEEDED HERE (WIDTH, HEIGHT)"""
 
@@ -1017,7 +1017,7 @@ class PersonalAssistant:
         self.canvas.create_window(
             270, 340, anchor=tk.CENTER, window=self.commandEntry)
 
-        self.sendImg = Image.open("sendIcon.png")
+        self.sendImg = Image.open("assets/sendIcon.png")
 
         self.sendImg = self.sendImg.resize((30, 30), Image.ANTIALIAS)
 
@@ -1039,7 +1039,7 @@ class PersonalAssistant:
         self.canvas.create_window(
             500, 340, anchor=tk.CENTER, window=self.enterButton)
 
-        self.micImg = Image.open("micIcon.png")
+        self.micImg = Image.open("assets/micIcon.png")
 
         self.micImg = self.micImg.resize((30, 30), Image.ANTIALIAS)
 
