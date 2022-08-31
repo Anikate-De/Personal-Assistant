@@ -6,7 +6,6 @@ import threading
 import time
 import tkinter as tk
 import tkinter.ttk as ttk
-import urllib
 import webbrowser
 
 import mysql.connector as connector
