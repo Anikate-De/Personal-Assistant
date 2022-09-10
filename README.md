@@ -23,25 +23,25 @@ Clone this repository and head to the \`Steps to Follow section\` to get started
 - *more features on the way...*
 
 ## 📱 Screenshots
-- Help Section
+- Greetings
 
-    <img src='readme_images/screenshot1.png' width = 340 alt='Help Section Screenshot'/>
+    <img src='readme_images/screenshot1.png' width = 340 alt='Greetings Screenshots'/>
 
-- Command Specific Help
+- Simple Questions
 
-     <img src='readme_images/screenshot2.png' width = 340 alt='Command Specific Help Screenshot'/>
+     <img src='readme_images/screenshot2.png' width = 340 alt='Simple Questions Screenshot'/>
 
-- Successful Code Execution
+- Wikipedia articles
 
-     <img src='readme_images/screenshot3.png' width = 340 alt='Successful Code Execution Screenshot'/>
+     <img src='readme_images/screenshot3.png' width = 340 alt='Wikipedia articles Screenshot'/>
 
-- Compile Time Error Output
+- Displaying To-Do list
 
-     <img src='readme_images/screenshot4.png' width = 340 alt='Compile Time Error Output Screenshot'/>
+     <img src='readme_images/screenshot4.png' width = 340 alt='Displaying To-Do list Screenshot'/>
 
-- Run-Time Error Output
+- Add Event Dialog
 
-     <img src='readme_images/screenshot5.png' width = 340 alt='Run-Time Error Output Screenshot'/>
+     <img src='readme_images/screenshot5.png' width = 340 alt='Add Event Dialog Screenshot'/>
 
 ## ❓How to Use
 
