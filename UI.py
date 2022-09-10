@@ -976,6 +976,8 @@ class PersonalAssistant:
 
         top.title("Personal Assistant")
 
+        top.iconbitmap('assets/logo.ico')
+
         root.wm_attributes("-transparentcolor", "grey")
 
         # creates the UI
