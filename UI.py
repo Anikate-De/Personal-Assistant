@@ -15,6 +15,7 @@ import pyttsx3
 import speech_recognition
 import wikipedia
 import wolframalpha
+from dotenv import load_dotenv
 from PIL import Image, ImageTk
 
 ''' 
@@ -351,7 +352,9 @@ class PersonalAssistant:
 
     def answer(self, question):
 
-        client = wolframalpha.Client("JWJJTA-28PAL9AULQ")
+        load_dotenv()
+
+        client = wolframalpha.Client(os.getenv("APP_ID"))
 
         res = client.query(question)
 

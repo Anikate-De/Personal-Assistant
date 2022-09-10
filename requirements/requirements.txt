@@ -11,3 +11,4 @@ pip install pillow
 pip install image
 pip install pygame
 pip install pyscreenshot
+pip install python-dotenv

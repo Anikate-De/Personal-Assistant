@@ -1,1 +1,4 @@
 temp/
+
+# Private keys and environment variables
+.env
